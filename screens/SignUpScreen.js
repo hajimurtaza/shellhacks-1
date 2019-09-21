@@ -8,39 +8,37 @@ import {
   Text,
   TouchableOpacity,
   View,
-  SafeAreaView
+  AsyncStorage
 } from 'react-native';
- 
-
-export default function HomeScreen(props) {
 
 
+export default function SignUpScreen(props) {
+
+  
   signInAsDisable = async() => {
+
+    await AsyncStorage.setItem('userToken', 'disable');
     props.navigation.navigate('DisabledScreen')
     
   }
   signInAsHelper = async() => {
+
+    await AsyncStorage.setItem('userToken', 'helper');
     props.navigation.navigate('HelperScreen')
     
   }
 
+  
   return (
     <View style={styles.container}>
-      <View style={styles.disableContainer}>
-        <TouchableOpacity onPress={this.signInAsDisable}>
-          <Text style={styles.touchText}>DISABLED</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.helper}>
-        <TouchableOpacity onPress={this.signInAsHelper}>
-          <Text style={styles.touchText}>HELPER</Text>
-        </TouchableOpacity>
-      </View>
+      <Text>SIGN UP SCREEN</Text>
     </View>
   );
 }
 
-HomeScreen.navigationOptions = {
+
+
+SignUpScreen.navigationOptions = {
   header: null,
 };
 

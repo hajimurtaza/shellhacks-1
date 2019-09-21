@@ -1,5 +1,5 @@
 import * as WebBrowser from 'expo-web-browser';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Image,
   Platform,
@@ -8,39 +8,46 @@ import {
   Text,
   TouchableOpacity,
   View,
-  AsyncStorage
+  SafeAreaView
 } from 'react-native';
+ 
 
+export default function SplashScreen() {
 
-export default function SignInScreen(props) {
-
-  
-  signInAsDisable = () => {
-
-    // await AsyncStorage.setItem('userToken', 'disable');
-    // props.navigation.navigate('DisabledScreen')
-    console.log('sign disable');
-    
-  }
-  signInAsHelper = () => {
-
-    // await AsyncStorage.setItem('userToken', 'helper');
-    // props.navigation.navigate('HelperScreen')
-    console.log('sign helper');
-    
+  performTimeConsumingTask = async() => {
+    return new Promise((resolve) =>
+      setTimeout(
+        () => { resolve('result') },
+        5000
+      )
+    )
   }
 
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await this.performTimeConsumingTask();
+
+        if (data !== null) {
+        this.props.navigation.navigate('HomeScreen');
+        }
+        }
+       catch(ex) {
+        console.log(ex)
+      }
+    }
+    getData()
+  }, []);
   
+
   return (
     <View style={styles.container}>
-      <Text>Sign In</Text>
+      
     </View>
   );
 }
 
-
-
-SignInScreen.navigationOptions = {
+SplashScreen.navigationOptions = {
   header: null,
 };
 
@@ -57,7 +64,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 3,
   },
-  helper: {
+  nonDisableContainer: {
     backgroundColor: 'green',
     padding: 20,
     borderRadius: 3,
