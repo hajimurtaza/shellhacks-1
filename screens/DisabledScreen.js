@@ -11,6 +11,10 @@ import {
   TextInput,
 } from 'react-native';
 
+import axios from 'axios';
+
+const endPoint = "http://10.110.184.209:5000/api/users/"
+
 const DisabledScreen = () => {
   let signed = false
 
@@ -18,34 +22,66 @@ const DisabledScreen = () => {
 
   const initialUserState = {
     name: '',
+    password: ''
   }
 
-  const [ name, setName ] = useState(initialUserState);
+  const [ name, setName ] = useState(initialUserState.name)
+  const [ password, setPassword ] = useState('');
 
+  const saveName = (name) => {
+
+    fetch(endPoint)
+      .then(res => res.json())
+      .catch(err => console.log("An error occured...", err));
+  //   try{
+  //     const data ={username:name, password}
+    
+  //   // console.log(data)
+
+  //  const resp = await axios.get(endPoint)
+
+  //   console.log(resp);
+  //   } catch(ex) {
+  //     console.log(ex);
+  //   }
+    // setName(n.name)
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    saveName(name)
+    setName(initialUserState.name)
+}
+
+  
 
   if(signed) {
     return ( 
       <View style={styles.container}>
-        <Text>SIGNED</Text>
       </View>
      );
   } else {
     return (
       <View style={styles.container}>
-        <Text>{name}</Text>
+      <Text>name</Text>
           <TextInput
             style={styles.textInputContainer}
             name="name"
             maxLength={31}
             placeholder="Name"
-            
+            onChangeText={text => setName(text)}
+            value={name}
+          />
+          <TextInput
+            style={styles.textInputContainer}
+            name="password"
+            maxLength={31}
+            placeholder="Password"
+            onChangeText={text => setPassword(text)}
+            value={password}
           />
         
-          <TouchableOpacity onPress={ e => {
-            e.preventDefault();
-            if(!this.state.card.name || !this.state.card.email) return
-            this.props.addCard(this.state.card)
-          }} style={styles.submitButton}
+          <TouchableOpacity onPress={ handleSubmit } style={styles.submitButton}
           >
             <Text style={styles.submitButtonText}>Submit</Text>
           </TouchableOpacity>
